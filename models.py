@@ -27,8 +27,8 @@ X_test = tokenizer.texts_to_sequences(text_test)
 
 word_index = tokenizer.word_index
 vocab_size = len(word_index) + 1  # Adding 1 because of reserved 0 index
-maxlen = max(len(x) for x in X_train) # longest text in train set or
-maxlen = 100
+maxlen = max(len(x) for x in X_train) # longest text in train set
+maxlen = 100 # or fixed length for improved efficiency
 print('vocabubary size:',vocab_size)
 print('max length text:',maxlen)
 
