@@ -38,6 +38,21 @@ X_test = pad_sequences(X_test, padding='post', maxlen=maxlen)
 embedding_dim = 300
 vocab_size = len(word_index) + 1
 
+# Load pre-trained embedding index
+embeddings_index = pickle.load(open("embeddings_300d.pkl", "rb"))
+
+# Prepare embedding matrix from pre-trained model
+embedding_matrix = np.zeros((len(word_index) + 1, embedding_dim))
+for word, i in word_index.items():
+    embedding_vector = embeddings_index.get(word)
+    if embedding_vector is not None:
+        # words not found in embedding index will be all-zeros.
+        embedding_matrix[i] = embedding_vector
+
+# Check % words with embeddings 
+nonzero_elements = np.count_nonzero(np.count_nonzero(embedding_matrix, axis=1))
+print(nonzero_elements / vocab_size)        
+        
 # Shallow CNN
 model = Sequential()
 model.add(Embedding(vocab_size, embedding_dim, input_length=maxlen,weights=[embedding_matrix],trainable=False))
@@ -100,3 +115,15 @@ model.compile(loss='binary_crossentropy',
               metrics=['accuracy'])
 
 model.summary()
+
+# Fit model
+history = model.fit(X_train, y_train,
+                    epochs=3,
+                    verbose=True,
+                    validation_data=(X_test, y_test),
+                    batch_size=50)
+loss, accuracy = model.evaluate(X_train, y_train, verbose=True)
+print("Training Accuracy: {:.4f}".format(accuracy))
+loss, accuracy = model.evaluate(X_test, y_test, verbose=False)
+print("Testing Accuracy:  {:.4f}".format(accuracy))
+plot_history(history)
