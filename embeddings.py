@@ -7,7 +7,7 @@ import pickle
 import gensim
 from gensim.models import Word2Vec
 
-# Input data (X) is a list of docs (best to preprocess first)
+# Input data (sentences) is a list of docs (best to preprocess first)
 
 model = Word2Vec(sentences, size=300, min_count=5)
 
