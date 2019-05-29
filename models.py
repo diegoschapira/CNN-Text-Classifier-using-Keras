@@ -56,7 +56,7 @@ print(nonzero_elements / vocab_size)
 # Shallow CNN
 model = Sequential()
 model.add(Embedding(vocab_size, embedding_dim, input_length=maxlen,weights=[embedding_matrix],trainable=False))
-model.add(Conv1D(128, 3, activation='relu'))
+model.add(Conv1D(512, 3, activation='relu'))
 model.add(GlobalMaxPooling1D())
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
