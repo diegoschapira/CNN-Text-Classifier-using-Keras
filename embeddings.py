@@ -24,7 +24,7 @@ def clean_text(doc):
 X = df['text'].tolist()
 X = [clean_text(x) for x in X]
 
-# Input data (sentences) is a list of docs (best to preprocess first)
+# Input data (X) is a list of lists (tokens) (best to preprocess first)
 
 model = Word2Vec(X, size=300, min_count=5)
 
