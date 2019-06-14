@@ -6,10 +6,27 @@ import numpy as np
 import pickle
 import gensim
 from gensim.models import Word2Vec
+import string
+
+#Text Preprocessing function
+tokenizer = RegexpTokenizer('[a-zA-Z]\w+\'?\w*')
+
+def clean_text(doc):
+    doc = str(doc)
+    # split into tokens by white space
+    tokens = tokenizer.tokenize(doc)
+    # remove punctuation from each token
+    table = str.maketrans('', '', string.punctuation)
+    tokens = [w.translate(table) for w in tokens]
+    tokens = [x.lower() for x in tokens]
+    return tokens
+
+X = df['text'].tolist()
+X = [clean_text(x) for x in X]
 
 # Input data (sentences) is a list of docs (best to preprocess first)
 
-model = Word2Vec(sentences, size=300, min_count=5)
+model = Word2Vec(X, size=300, min_count=5)
 
 embeddings_index = {}
 for i in range(len(model.wv.vocab)):
