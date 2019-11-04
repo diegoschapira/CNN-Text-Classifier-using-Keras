@@ -20,6 +20,10 @@ import matplotlib.pyplot as plt
 # Split train & test
 text_train, text_test, y_train, y_test = train_test_split(X, y, test_size=0.05, random_state=RANDOM_STATE)
 
+#create class weight dict
+class_weights = compute_class_weight('balanced', np.unique(y_train), y_train)
+class_weights_d = dict(enumerate(class_weights))
+
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(text_train)
 X_train = tokenizer.texts_to_sequences(text_train)
@@ -118,6 +122,7 @@ model.summary()
 
 # Fit model
 history = model.fit(X_train, y_train,
+                    class_weight = class_weights_d,
                     epochs=3,
                     verbose=True,
                     validation_data=(X_test, y_test),
