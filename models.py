@@ -10,6 +10,7 @@ from keras.models import load_model
 
 import sklearn
 from sklearn.model_selection import train_test_split
+from sklearn.utils import class_weight
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 from sklearn.externals import joblib
 
